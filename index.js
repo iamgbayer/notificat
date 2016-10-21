@@ -1,63 +1,24 @@
-'use strict'
+'use strict';
 
 const express = require('express')
-const bodyParser = require('body-parser')
-const request = require('request')
-const app = express()
-const token = process.env.FB_PAGE_ACCESS_TOKEN
+    , bodyParser = require('body-parser')
+    , request = require('request')
+    , app = express()
+    , token = process.env.FB_PAGE_ACCESS_TOKEN;
 
-app.set('port', (process.env.PORT || 5000))
+app.set('port', (process.env.PORT || 5000));
 
 // Process application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: false}));
 
 // Process application/json
-app.use(bodyParser.json())
-
-// for Facebook verification
-app.get('/webhook/', function (req, res) {
-    if (req.query['hub.verify_token'] === token) {
-        res.send(req.query['hub.challenge'])
-    }
-
-    res.send('Error, wrong token')
-})
-
-app.post('/webhook/', function (req, res) {
-	let messagingEvents = req.body.entry[0].messaging
-
-    console.log(req.body)
-
-	for (let i = 0; i < messagingEvents.length; i++) {
-		let event = req.body.entry[0].messaging[i]
-		let sender = event.sender.id
-        
-		if (event.message && event.message.text) {
-			let text = event.message.text
-
-			if (text === 'Generic') {
-				sendGenericMessage(sender, token)
-				continue
-			}
-
-			sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200), token)
-		}
-
-		if (event.postback) {
-			let text = JSON.stringify(event.postback)
-			sendTextMessage(sender, "Postback received: " + text.substring(0, 200), token)
-			continue
-		}
-	}
-
-	res.sendStatus(200)
-})
+app.use(bodyParser.json());
 
 function sendTextMessage(sender, text, token) {
 	let messageData = { text: text }
 	
 	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
+    url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {access_token: token},
 		method: 'POST',
 		json: {
@@ -105,6 +66,7 @@ function sendGenericMessage(sender, token) {
 			}
 		}
 	}
+  
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {access_token: token},
