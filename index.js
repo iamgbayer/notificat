@@ -1,10 +1,9 @@
-'use strict';
+import express from 'express';
+import bodyParser from 'body-parser';
+import routes from './src/routes/index';
 
-const express = require('express')
-    , bodyParser = require('body-parser')
-    , request = require('request')
-    , app = express()
-    , token = process.env.FB_PAGE_ACCESS_TOKEN;
+const app = express();
+const token = process.env.FB_PAGE_ACCESS_TOKEN;
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -14,9 +13,15 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Process application/json
 app.use(bodyParser.json());
 
+app.use('/api', routes);
+
+app.listen(app.get('port'), function () {
+	console.log('running on port', app.get('port'));
+})
+
 function sendTextMessage(sender, text, token) {
 	let messageData = { text: text }
-	
+
 	request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {access_token: token},
@@ -66,7 +71,7 @@ function sendGenericMessage(sender, token) {
 			}
 		}
 	}
-  
+
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {access_token: token},
@@ -84,6 +89,4 @@ function sendGenericMessage(sender, token) {
 	})
 }
 
-app.listen(app.get('port'), function() {
-    console.log('running on port', app.get('port'))
-})
+export default app;
