@@ -1,10 +1,10 @@
 import express from 'express';
-import AuthRoute from './auth';
+import AuthorizationRoute from './authorization';
 import WebhookRoute from './webhook';
 
 const router = express.Router();
 
-router.use('/', AuthRoute);
+router.use('/', AuthorizationRoute);
 // router.use('/calback', AuthRoute);
 
 export default router;
