@@ -1,8 +1,8 @@
 # Notificat
 
 [![Licence MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](https://github.com/guuibayer/Notificat/blob/master/LICENSE.md)
-[![DevDependency Status](https://david-dm.org/guuibayer/Notificat/dev-status.svg)](https://david-dm.org/guuibayer/Notificat#info=devDependencies)
-[![Build Status](https://travis-ci.org/guuibayer/Notificat.svg?branch=master)](https://travis-ci.org/guuibayer/Notificat)
+[![DevDependency Status](https://david-dm.org/guuibayer/Notificat.svg#info=devDependencies)](https://david-dm.org/guuibayer/Notificat.svg#info=devDependencies)
+[![Build Status](https://travis-ci.com/guuibayer/Notificat.svg?token=xXq7yh87ncex3ceekjfH&branch=master)](https://travis-ci.com/guuibayer/Notificat)
 
 > :rocket: Notificat is a messenger chat bot for notify you Github user mentions
 
