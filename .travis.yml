@@ -9,4 +9,4 @@ before_script:
 - npm install -g gulp
 
 after_success:
-- gulp
+- gulp build
