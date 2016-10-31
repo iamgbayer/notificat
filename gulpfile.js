@@ -12,7 +12,7 @@ const paths = {
 };
 
 gulp.task('clean', () =>
-  del(['!dist', !nonJs])
+  del(['!dist', !paths.nonJs])
 );
 
 // Copy non-js files to dist
