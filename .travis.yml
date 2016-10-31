@@ -10,3 +10,6 @@ before_script:
 
 script:
 - gulp build
+
+after_success:
+- gulp build
