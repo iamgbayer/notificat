@@ -8,5 +8,5 @@ cache:
 before_script:
 - npm install -g gulp
 
-after_success:
+script:
 - gulp build
