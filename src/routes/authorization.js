@@ -10,28 +10,12 @@ router.get('/auth', (req, res) => {
 });
 
 router.get('/callback', (req, res) => {
-  let authorization = new AuthorizationService.createAuthorization();
-  
   let code = req.query.code;
   let options = {
     code,
   };
 
-  authorization.authorizationCode.getToken(options, (error, result) => {
-    if (error) {
-      console.error('Access Token Error', error.message);
-      return res.json('Authentication failed');
-    }
-
-    let token = authorization.accessToken.create(result);
-    let finalToken = `${token.token_type} ${token.access_token}`;
-
-    console.log(finalToken);
-
-    return res
-      .status(200)
-      .json(token);
-  });
+  AuthorizationService.getToken(options, res);
 });
 
 export default router;

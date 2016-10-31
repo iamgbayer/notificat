@@ -1,3 +1,4 @@
+import config from '../../index';
 import express from 'express';
 import request from 'request';
 
@@ -5,15 +6,11 @@ class WebhookService {
   constructor () {};
 
   tokenVerify (req, res) {
-    if (!req.query['hub.verify_token'] === token) {
+    if (!req.query['hub.verify_token'] === config.FACEBOOK_TOKEN) {
       return res.send('Error, wrong token');
     }
 
     return res.send(req.query['hub.challenge']);
-  }
-
-  static oi () {
-    console.log('oi')
   }
 
   messageEvent (req, res) {
@@ -29,17 +26,17 @@ class WebhookService {
         let text = event.message.text;
 
         if (text === 'Generic') {
-          sendGenericMessage(sender, token);
+          sendGenericMessage(sender, config.FACEBOOK_TOKEN);
           continue;
         }
 
-        sendTextMessage(sender, `Text received, echo: ${text.substring(0, 200)}`, token);
+        sendTextMessage(sender, `Text received, echo: ${text.substring(0, 200)}`, config.FACEBOOK_TOKEN);
       }
 
       if (event.postback) {
         let text = JSON.stringify(event.postback);
 
-        sendTextMessage(sender, `Postback received: ${text.substring(0, 200)}`, token);
+        sendTextMessage(sender, `Postback received: ${text.substring(0, 200)}`, config.FACEBOOK_TOKEN);
         continue;
       }
     }
