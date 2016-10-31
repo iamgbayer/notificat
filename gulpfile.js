@@ -25,7 +25,7 @@ gulp.task('copy', () =>
 
 // Compile ES6 to ES5 and copy to dist
 gulp.task('babel', () =>
-  gulp.src([...paths.js, '!gulpfile.js'], { base: '.' })
+  gulp.src(['./**/*.js', '!dist/**', '!node_modules/**', '!gulpfile.js'], { base: '.' })
     .pipe(plugins.newer('dist'))
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.babel())
