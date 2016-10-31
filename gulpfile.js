@@ -8,14 +8,13 @@ const plugins = gulpLoadPlugins();
 
 const paths = {
   js: ['./**/*.js', '!dist/**', '!node_modules/**'],
-  nonJs: ['./package.json', './.gitignore', './gulpfile.js', 'Procfile', '.travis.yml']
+  nonJs: ['./package.json', './.gitignore', './gulpfile.js']
 };
 
 gulp.task('clean', () =>
-  del(['!dist', !paths.nonJs])
+  del(['!dist'])
 );
 
-// Copy non-js files to dist
 gulp.task('copy', () =>
   gulp.src(paths.nonJs)
     .pipe(plugins.newer('dist'))
