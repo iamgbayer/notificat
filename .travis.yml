@@ -1,7 +1,6 @@
 language: node_js
 node_js:
   - "4.6"
-  - "6.8"
 cache:
   directories:
   - node_modules
@@ -9,4 +8,4 @@ cache:
 before_script:
 - npm install -g gulp
 
-script: gulp build
+script: gulp
