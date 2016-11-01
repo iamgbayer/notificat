@@ -9,6 +9,7 @@ before_script:
 - npm install -g gulp
 
 script:
-- npm install
+- npm i
+
+after_success:
 - gulp build
-- node dist/index.js
