@@ -21,7 +21,7 @@ Pull requests are the greatest contributions, so be sure they are focused in sco
 	git clone https://github.com/<your-username>/Notificat
 
 	# Navigate to the newly cloned directory
-	cd selectshare
+	cd Notificat
 
 	# Assign the original repo to a remote called "upstream"
 	git remote add upstream https://github.com/guuibayer/Notificat
