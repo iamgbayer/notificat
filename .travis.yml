@@ -13,3 +13,9 @@ script:
 
 after_success:
 - gulp build
+
+deploy:
+   provider: heroku
+   app: notificat
+   api_key:
+      secure: 
