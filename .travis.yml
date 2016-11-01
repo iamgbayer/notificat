@@ -14,4 +14,4 @@ deploy:
   provider: heroku
   app: notificat
   api_key:
-    secure: HEROKU
+    secure: $HEROKU
