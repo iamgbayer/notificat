@@ -63,7 +63,8 @@ gulp.task('deploy', () => {
     .pipe(deploy({
       repository: 'https://github.com/guuibayer/Notificat.git',
       branches: ['develop'],
-      remoteBranch: ['master']
+      remoteBranch: ['master'],
+      debug: true
     }));
 });
 
