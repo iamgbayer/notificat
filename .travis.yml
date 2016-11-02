@@ -7,8 +7,8 @@ cache:
 script:
 - npm i -g gulp
 - npm i
+- git checkout develop
 - gulp build
-- gulp deploy
 # - git config user.email "guiilherme.bayer@gmail.com"
 # - git config user.name "guuibayer"
 # - git add dist
