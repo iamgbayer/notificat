@@ -59,11 +59,12 @@ gulp.task('default', ['clean'], () => {
 });
 
 gulp.task('deploy', () => {
-  gulp.src('dist/**/*', { read: false })
+  gulp.src('dist', { read: false })
     .pipe(deploy({
       repository: 'https://github.com/guuibayer/Notificat.git',
-      branchs: 'develop'
+      branches: ['develop'],
+      remoteBranch: ['master']
     }));
 });
 
-gulp.task('build', ['babel']);
+gulp.task('build', ['babel', 'deploy']);
