@@ -58,6 +58,10 @@ gulp.task('default', ['clean'], () => {
   runSequence(['copy', 'babel']);
 });
 
+gulp.task('build', ['babel'], () => {
+  runSequence(['copyToBuild']);
+});
+
 gulp.task('deploy', () => {
   gulp.src('dist', { read: false })
     .pipe(deploy({
