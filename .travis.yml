@@ -8,11 +8,12 @@ script:
 - npm i -g gulp
 - npm i
 - gulp build
-- git config user.email "guiilherme.bayer@gmail.com"
-- git config user.name "guuibayer"
-- git add dist
-- git commit -m "Initial dist subtree commit"
-- git push origin `git subtree split --prefix dist origin master`:develop --force
+- gulp deploy
+# - git config user.email "guiilherme.bayer@gmail.com"
+# - git config user.name "guuibayer"
+# - git add dist
+# - git commit -m "Initial dist subtree commit"
+# - git push origin `git subtree split --prefix dist origin master`:develop --force
 
 deploy:
   provider: heroku
