@@ -12,7 +12,7 @@ script:
 - git config user.name "guuibayer"
 - git add dist
 - git commit -m "Initial dist subtree commit"
-- git subtree push --prefix dist origin master
+- git subtree push -f --prefix dist origin master
 
 deploy:
   provider: heroku
