@@ -7,7 +7,6 @@ cache:
 script:
 - npm i -g gulp
 - npm i
-- git checkout -b master
 - git checkout develop
 - git config --global user.name "guuibayer"
 - git config --global user.email "guiilherme.bayer@gmail.com"
