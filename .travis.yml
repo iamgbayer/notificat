@@ -8,8 +8,8 @@ script:
 - npm i -g gulp
 - npm i
 - git checkout develop
-- git config user.email "guiilherme.bayer@gmail.com"
-- git config user.name "guuibayer"
+- git config --global user.name "guuibayer"
+- git config --global user.email "guiilherme.bayer@gmail.com"
 - gulp build
 # - git add dist
 # - git commit -m "Initial dist subtree commit"
