@@ -8,7 +8,8 @@ const plugins = gulpLoadPlugins();
 
 const paths = {
   js: ['./**/*.js', '!dist/**', '!node_modules/**'],
-  nonJs: ['./package.json', './.gitignore', './gulpfile.js']
+  nonJs: ['./package.json', './.gitignore', './gulpfile.js'],
+  filesToBuild: ['Procfile']
 };
 
 gulp.task('clean', () =>
@@ -17,6 +18,12 @@ gulp.task('clean', () =>
 
 gulp.task('copy', () =>
   gulp.src(paths.nonJs)
+    .pipe(plugins.newer('dist'))
+    .pipe(gulp.dest('dist'))
+);
+
+gulp.task('copyToBuild', () =>
+  gulp.src(paths.filesToBuild)
     .pipe(plugins.newer('dist'))
     .pipe(gulp.dest('dist'))
 );
@@ -50,4 +57,4 @@ gulp.task('default', ['clean'], () => {
   runSequence(['copy', 'babel']);
 });
 
-gulp.task('build', ['babel']);
+gulp.task('build', ['babel', 'copyToBuild']);
