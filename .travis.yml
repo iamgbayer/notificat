@@ -1,14 +1,17 @@
 language: node_js
 node_js:
-  - "4.6"
+- '4.6'
 cache:
   directories:
   - node_modules
-
 before_script:
 - npm install -g gulp
-
 script:
-- npm install
-- gulp build
-- node dist/index.js
+- npm i
+
+deploy:
+  provider: heroku
+  script: gulp build
+  app: notificat
+  api_key:
+    secure: $HEROKU
