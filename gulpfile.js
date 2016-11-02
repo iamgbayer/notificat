@@ -67,5 +67,3 @@ gulp.task('deploy', () => {
       debug: true
     }));
 });
-
-gulp.task('build', ['babel', 'deploy']);
