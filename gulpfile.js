@@ -65,7 +65,7 @@ gulp.task('build', ['babel'], () => {
 gulp.task('deploy', () => {
   gulp.src('dist', { read: false })
     .pipe(deploy({
-      repository: 'https://github.com/guuibayer/Notificat.git',
+      repository: 'git@github.com:guuibayer/Notificat.git',
       branches: ['develop'],
       remoteBranch: ['master'],
       debug: true
