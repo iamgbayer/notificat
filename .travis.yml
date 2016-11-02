@@ -4,14 +4,15 @@ node_js:
 cache:
   directories:
   - node_modules
-before_script:
-- npm install -g gulp
 script:
+- npm i -g gulp
 - npm i
+- gulp build
+- git add dist && git commit -m "Initial dist subtree commit"
+- git subtree push --prefix dist origin master
 
 deploy:
   provider: heroku
-  script: gulp build
   app: notificat
   api_key:
     secure: $HEROKU
