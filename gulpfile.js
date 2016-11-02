@@ -2,7 +2,8 @@ const gulp = require('gulp')
       , gulpLoadPlugins = require('gulp-load-plugins')
       , path = require('path')
       , del = require('del')
-      , runSequence = require('run-sequence');
+      , runSequence = require('run-sequence')
+      , deploy = require('gulp-deploy-git');
 
 const plugins = gulpLoadPlugins();
 
@@ -57,4 +58,12 @@ gulp.task('default', ['clean'], () => {
   runSequence(['copy', 'babel']);
 });
 
-gulp.task('build', ['babel', 'copyToBuild']);
+gulp.task('deploy', () => {
+  gulp.src('dist/**/*', { read: false })
+    .pipe(deploy({
+      repository: 'https://github.com/guuibayer/Notificat.git',
+      branchs: 'develop'
+    }));
+});
+
+gulp.task('build', ['babel']);
