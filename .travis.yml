@@ -8,10 +8,10 @@ before_script:
 - npm install -g gulp
 script:
 - npm i
-after_success:
-- gulp build
+
 deploy:
   provider: heroku
+  script: gulp build
   app: notificat
   api_key:
     secure: $HEROKU
