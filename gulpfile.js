@@ -50,4 +50,4 @@ gulp.task('default', ['clean'], () => {
   runSequence(['copy', 'babel']);
 });
 
-gulp.task('build', ['babel'], () => runSequence('clean'));
+gulp.task('build', ['babel']);
