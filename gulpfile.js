@@ -59,7 +59,7 @@ gulp.task('default', ['clean'], () => {
 });
 
 gulp.task('deploy', () => {
-  gulp.src('dist/', { read: false })
+  gulp.src('dist', { read: false })
     .pipe(deploy({
       repository: 'git@github.com:guuibayer/Notificat.git',
       branches: ['develop'],
