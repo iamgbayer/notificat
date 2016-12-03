@@ -3,9 +3,9 @@ const gulp = require('gulp')
       , path = require('path')
       , del = require('del')
       , runSequence = require('run-sequence')
-      , deploy = require('gulp-deploy-git');
+      , deploy = require('gulp-deploy-git')
+      , plugins = gulpLoadPlugins();
 
-const plugins = gulpLoadPlugins();
 
 const paths = {
   js: ['./**/*.js', '!dist/**', '!node_modules/**'],
@@ -13,9 +13,11 @@ const paths = {
   filesToBuild: ['Procfile']
 };
 
+
 gulp.task('clean', () =>
   del(['**/*', '!dist/**', '!Procfile', '!gulpfile.js', '!package.json'])
 );
+
 
 gulp.task('copy', () =>
   gulp.src(paths.nonJs)
@@ -23,11 +25,13 @@ gulp.task('copy', () =>
     .pipe(gulp.dest('dist'))
 );
 
+
 gulp.task('copyToBuild', () =>
   gulp.src(paths.filesToBuild)
     .pipe(plugins.newer('dist'))
     .pipe(gulp.dest('dist'))
 );
+
 
 gulp.task('babel', () =>
   gulp.src(['./**/*.js', '!dist/**', '!node_modules/**', '!gulpfile.js'], { base: '.' })
@@ -36,12 +40,11 @@ gulp.task('babel', () =>
     .pipe(plugins.babel())
     .pipe(plugins.sourcemaps.write('.', {
       includeContent: false,
-      sourceRoot(file) {
-        return path.relative(file.path, __dirname);
-      }
+      sourceRoot(file) { return path.relative(file.path, __dirname); }
     }))
     .pipe(gulp.dest('dist'))
 );
+
 
 gulp.task('nodemon', ['copy', 'babel'], () =>
   plugins.nodemon({
@@ -52,18 +55,24 @@ gulp.task('nodemon', ['copy', 'babel'], () =>
   })
 );
 
+
 gulp.task('serve', ['clean'], () => runSequence('nodemon'));
+
 
 gulp.task('default', ['clean'], () => {
   runSequence(['copy', 'babel']);
 });
 
+
+/**
+ * Deploy task
+ */
 gulp.task('deploy', () => {
-  gulp.src('dist', { read: false })
+  gulp.src('dist/**/*', { read: false })
     .pipe(deploy({
       repository: 'git@github.com:guuibayer/Notificat.git',
-      branches: ['develop'],
-      remoteBranch: ['master'],
-      debug: true
+      prefix: 'dist',
+      debug: true,
+      verbose: true,
     }));
 });
