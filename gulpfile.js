@@ -67,10 +67,10 @@ gulp.task('default', ['clean'], () => {
 /**
  * Deploy task
  */
-gulp.task('deploy', () => {
+gulp.task('deploy', ['babel'], () => {
   gulp.src('dist/**/*', { read: false })
     .pipe(deploy({
-      repository: 'git@github.com:guuibayer/Notificat.git',
+      repository: 'https://github.com/guuibayer/notificat.git',
       prefix: 'dist',
       debug: true,
       verbose: true,
