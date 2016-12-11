@@ -4,7 +4,7 @@
 [![DevDependency Status](https://david-dm.org/guuibayer/Notificat.svg#info=devDependencies)](https://david-dm.org/guuibayer/Notificat.svg#info=devDependencies)
 [![Build Status](https://travis-ci.com/guuibayer/Notificat.svg?token=xXq7yh87ncex3ceekjfH&branch=master)](https://travis-ci.com/guuibayer/Notificat)
 
-> :rocket: Notificat is a messenger chat bot for notify you Github user mentions
+> :octocat: Notificat is a messenger bot for notify you Github user mentions.
 
 ## How use
 Bot in construction, help build it!

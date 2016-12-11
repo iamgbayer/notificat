@@ -5,5 +5,6 @@ import WebhookRoute from './webhook';
 const router = express.Router();
 
 router.use('/', AuthorizationRoute);
+router.use('/', WebhookRoute);
 
 export default router;
