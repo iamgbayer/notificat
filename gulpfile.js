@@ -10,7 +10,7 @@ const gulp = require('gulp')
 const paths = {
   js: ['./**/*.js', '!dist/**', '!node_modules/**'],
   nonJs: ['./package.json', './.gitignore', './gulpfile.js'],
-  filesToBuild: ['Procfile']
+  filesToBuild: ['Procfile', './package.json']
 };
 
 
