@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _index = require('../../index');
+var _config = require('../configs/config');
 
-var _index2 = _interopRequireDefault(_index);
+var _config2 = _interopRequireDefault(_config);
 
 var _express = require('express');
 
@@ -30,7 +30,7 @@ var WebhookService = function () {
   _createClass(WebhookService, null, [{
     key: 'tokenVerify',
     value: function tokenVerify(req, res) {
-      if (!req.query['hub.verify_token'] === _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN) {
+      if (!req.query['hub.verify_token'] === _config2.default.FACEBOOK_PAGE_ACCESS_TOKEN) {
         return res.send('Error, wrong token');
       }
 
@@ -43,26 +43,31 @@ var WebhookService = function () {
 
       console.log(req.body);
 
-      messagingEvents.map(function (messagingEvent) {
-        var message = messagingEvent.message.text;
-        var sender = messagingEvent.sender.id;
+      /*messagingEvents.map(messagingEvent => {
+        console.log(req.body)
+        let messages = messagingEvent.message;
+        let sender = messagingEvent.sender;
+         // console.log('Destinatário: ', sender, 'Mensagem: ', messages)
+      })*/
+      for (var i = 0; i < messagingEvents.length; i++) {
+        var event = req.body.entry[0].messaging[i];
+        var sender = event.sender.id;
 
-        console.log('Destinatário: ', sender, 'Mensagem: ', message);
-        WebhookService.textMessage(sender, message);
-      });
+        WebhookService.textMessage(sender, event.message.text);
+      }
 
       res.sendStatus(200);
     }
   }, {
     key: 'textMessage',
-    value: function textMessage(sender, text) {
+    value: function textMessage(sender, messages) {
       (0, _request2.default)({
         url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: { access_token: _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN },
+        qs: { access_token: _config2.default.FACEBOOK_PAGE_ACCESS_TOKEN },
         method: 'POST',
         json: {
           recipient: { id: sender },
-          message: { text: text }
+          message: { text: messages }
         }
       }, function (error, response, body) {
         if (error) {
