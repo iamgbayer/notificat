@@ -1,4 +1,4 @@
-import config from '../../index';
+import config from '../configs/config';
 import express from 'express';
 import request from 'request';
 
@@ -18,25 +18,31 @@ class WebhookService {
 
     console.log(req.body)
 
-    messagingEvents.map(messagingEvent => {
-      let message = messagingEvent.message.text;
-      let sender = messagingEvent.sender.id;
+    /*messagingEvents.map(messagingEvent => {
+      console.log(req.body)
+      let messages = messagingEvent.message;
+      let sender = messagingEvent.sender;
 
-      console.log('Destinatário: ', sender, 'Mensagem: ', message)
-      WebhookService.textMessage(sender, message);
-    })
+      // console.log('Destinatário: ', sender, 'Mensagem: ', messages)
+    })*/
+    for (let i = 0; i < messagingEvents.length; i++) {
+       let event = req.body.entry[0].messaging[i];
+       let sender = event.sender.id;
+
+      WebhookService.textMessage(sender, event.message.text);
+    }
 
     res.sendStatus(200);
   }
 
-  static textMessage (sender, text) {
+  static textMessage (sender, messages) {
     request({
       url: 'https://graph.facebook.com/v2.6/me/messages',
       qs: { access_token: config.FACEBOOK_PAGE_ACCESS_TOKEN },
       method: 'POST',
       json: {
         recipient: { id: sender },
-        message: { text: text },
+        message: { text: messages },
       }
     }, (error, response, body) => {
       if (error) {
