@@ -12,6 +12,7 @@ script:
 - git config --global user.name "guuibayer"
 - git config --global user.email "guiilherme.bayer@gmail.com"
 - gulp babel
+- gulp copyToBuild
 
 after_success:
 - git checkout master
