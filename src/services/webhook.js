@@ -6,7 +6,7 @@ class WebhookService {
   constructor () {};
 
   static tokenVerify (req, res) {
-    if (req.query['hub.verify_token'] !== config.FACEBOOK_PAGE_ACCESS_TOKEN) {
+    if (!req.query['hub.verify_token'] === config.FACEBOOK_PAGE_ACCESS_TOKEN) {
       return res.send('Error, wrong token');
     }
 
@@ -22,20 +22,21 @@ class WebhookService {
       let message = messagingEvent.message.text;
       let sender = messagingEvent.sender.id;
 
-      WebhookService.textMessage(sender, message.substring(0, 200));
+      console.log('Destinatário: ', sender, 'Mensagem: ', message)
+      WebhookService.textMessage(sender, message);
     })
 
     res.sendStatus(200);
   }
 
-  static textMessage (sender, message) {
+  static textMessage (sender, text) {
     request({
       url: 'https://graph.facebook.com/v2.6/me/messages',
       qs: { access_token: config.FACEBOOK_PAGE_ACCESS_TOKEN },
       method: 'POST',
       json: {
         recipient: { id: sender },
-        message: { text: message },
+        message: { text: text },
       }
     }, (error, response, body) => {
       if (error) {
