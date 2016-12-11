@@ -4,23 +4,6 @@ import routes from './src/routes/index';
 
 const app = express();
 
-const config = {
-	FACEBOOK_TOKEN: process.env.FACEBOOK_PAGE_ACCESS_TOKEN,
-	FACEBOK_PAGE_URL: process.env.FACEBOOK_PAGE_URL,
-
-	CLIENT_ID: process.env.CLIENT_ID,
-	CLIENT_SECRET: process.env.CLIENT_SECRET,
-	
-	TOKEN_HOST: process.env.TOKEN_HOST,
-	TOKEN_PATH: process.env.TOKEN_PATH,
-	
-	AUTHORIZE_PATH: process.env.AUTHORIZE_PATH,
-
-	REDIRECT_URI: process.env.REDIRECT_URI,
-	REDIRECT_SCOPE: process.env.REDIRECT_SCOPE,
-	REDIRECT_STATE: process.env.REDIRECT_STATE
-};
-
 app.set('port', (process.env.PORT || 5000));
 
 // Process application/x-www-form-urlencoded
@@ -105,4 +88,4 @@ function sendGenericMessage(sender, token) {
 	})
 }
 
-export default {app, config};
+export default {app};

@@ -1,5 +1,5 @@
 import simpleOauth from 'simple-oauth2';
-import config from '../../index';
+import config from '../configs/config';
 import express from 'express';
 
 class AuthorizationService {

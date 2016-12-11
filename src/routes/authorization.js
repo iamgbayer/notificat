@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/auth', (req, res) => {
   let authorization = new AuthorizationService();
 
-  authorization.authorizationRedirect(req, res);
+  authorization.authorizationRedirect(res);
 });
 
 router.get('/callback', (req, res) => {
