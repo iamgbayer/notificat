@@ -69,7 +69,8 @@ var AuthorizationService = function () {
           return res.json('Authentication failed');
         }
 
-        GITHUB_TOKEN = AuthorizationService.createAuthorization().accessToken.create(result);
+        var GITHUB_TOKEN = AuthorizationService.createAuthorization().accessToken.create(result);
+        console.log(GITHUB_TOKEN);
 
         return res.redirect(_config2.default.FACEBOOK_PAGE_URL);
       });
