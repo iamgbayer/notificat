@@ -28,15 +28,6 @@ var WebhookService = function () {
   }
 
   _createClass(WebhookService, [{
-    key: 'tokenVerify',
-    value: function tokenVerify(req, res) {
-      if (!req.query['hub.verify_token'] === _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN) {
-        return res.send('Error, wrong token');
-      }
-
-      return res.send(req.query['hub.challenge']);
-    }
-  }, {
     key: 'textMessage',
     value: function textMessage(sender, text, token) {
       var messageData = { text: text };
@@ -61,30 +52,38 @@ var WebhookService = function () {
       });
     }
   }], [{
-    key: 'messageEvent',
-    value: function messageEvent(req, res) {
-      var messagingEvents = req.body.entry[0].messaging;
-
-      console.log(req.body);
-
-      for (var i = 0; i < messagingEvents.length; i++) {
-        var event = req.body.entry[0].messaging[i];
-        var sender = event.sender.id;
-
-        if (event.message && event.message.text) {
-          var text = event.message.text;
-          WebhookService.sendTextMessage(sender, 'Text received, echo: ' + text.substring(0, 200), _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN);
-        }
-
-        if (event.postback) {
-          var _text = JSON.stringify(event.postback);
-
-          WebhookService.textMessage(sender, 'Postback received: ' + _text.substring(0, 200), _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN);
-          continue;
-        }
+    key: 'tokenVerify',
+    value: function tokenVerify(req, res) {
+      if (!req.query['hub.verify_token'] === _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN) {
+        return res.send('Error, wrong token');
       }
 
-      res.sendStatus(200);
+      return res.send(req.query['hub.challenge']);
+    }
+  }, {
+    key: 'messageEvent',
+    value: function messageEvent(req, res) {
+      WebhookService.tokenVerify(req, res);
+      // let messagingEvents = req.body.entry[0].messaging;
+
+      // console.log(req.body);
+      /*
+        for (let i = 0; i < messagingEvents.length; i++) {
+          let event = req.body.entry[0].messaging[i];
+          let sender = event.sender.id;
+          
+          if (event.message && event.message.text) {
+            let text = event.message.text;
+            WebhookService.sendTextMessage(sender, `Text received, echo: ${text.substring(0, 200)}`, config.FACEBOOK_PAGE_ACCESS_TOKEN);
+          }
+           if (event.postback) {
+            let text = JSON.stringify(event.postback);
+             WebhookService.textMessage(sender, `Postback received: ${text.substring(0, 200)}`, config.FACEBOOK_PAGE_ACCESS_TOKEN);
+            continue;
+          }
+        }*/
+
+      // res.sendStatus(200);
     }
   }]);
 

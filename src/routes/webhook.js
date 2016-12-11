@@ -18,6 +18,7 @@ var router = _express2.default.Router();
 
 router.get('/webhook', function (req, res) {
     _webhook2.default.messageEvent(req, res);
+    // res.send('oi')
 });
 
 exports.default = router;
