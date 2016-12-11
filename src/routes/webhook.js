@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get('/webhook', (req, res) => {
     WebhookService.messageEvent(req, res)
+    // res.send('oi')
 });
 
 export default router;
