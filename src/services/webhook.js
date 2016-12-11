@@ -30,13 +30,37 @@ var WebhookService = function () {
   _createClass(WebhookService, [{
     key: 'tokenVerify',
     value: function tokenVerify(req, res) {
-      if (!req.query['hub.verify_token'] === _index2.default.FACEBOOK_TOKEN) {
+      if (!req.query['hub.verify_token'] === _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN) {
         return res.send('Error, wrong token');
       }
 
       return res.send(req.query['hub.challenge']);
     }
   }, {
+    key: 'textMessage',
+    value: function textMessage(sender, text, token) {
+      var messageData = { text: text };
+
+      (0, _request2.default)({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: { access_token: token },
+        method: 'POST',
+        json: {
+          recipient: { id: sender },
+          message: messageData
+        }
+      }, function (error, response, body) {
+        if (error) {
+          console.log('Error sending messages: ', error);
+          return;
+        }
+        if (response.body.error) {
+          console.log('Error: ', response.body.error);
+          return;
+        }
+      });
+    }
+  }], [{
     key: 'messageEvent',
     value: function messageEvent(req, res) {
       var messagingEvents = req.body.entry[0].messaging;
@@ -49,19 +73,13 @@ var WebhookService = function () {
 
         if (event.message && event.message.text) {
           var text = event.message.text;
-
-          if (text === 'Generic') {
-            sendGenericMessage(sender, _index2.default.FACEBOOK_TOKEN);
-            continue;
-          }
-
-          sendTextMessage(sender, 'Text received, echo: ' + text.substring(0, 200), _index2.default.FACEBOOK_TOKEN);
+          WebhookService.sendTextMessage(sender, 'Text received, echo: ' + text.substring(0, 200), _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN);
         }
 
         if (event.postback) {
           var _text = JSON.stringify(event.postback);
 
-          sendTextMessage(sender, 'Postback received: ' + _text.substring(0, 200), _index2.default.FACEBOOK_TOKEN);
+          WebhookService.textMessage(sender, 'Postback received: ' + _text.substring(0, 200), _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN);
           continue;
         }
       }
