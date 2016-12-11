@@ -20,23 +20,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var app = (0, _express2.default)();
 
-var config = {
-	FACEBOOK_TOKEN: process.env.FACEBOOK_PAGE_ACCESS_TOKEN,
-	FACEBOK_PAGE_URL: process.env.FACEBOOK_PAGE_URL,
-
-	CLIENT_ID: process.env.CLIENT_ID,
-	CLIENT_SECRET: process.env.CLIENT_SECRET,
-
-	TOKEN_HOST: process.env.TOKEN_HOST,
-	TOKEN_PATH: process.env.TOKEN_PATH,
-
-	AUTHORIZE_PATH: process.env.AUTHORIZE_PATH,
-
-	REDIRECT_URI: process.env.REDIRECT_URI,
-	REDIRECT_SCOPE: process.env.REDIRECT_SCOPE,
-	REDIRECT_STATE: process.env.REDIRECT_STATE
-};
-
 app.set('port', process.env.PORT || 5000);
 
 // Process application/x-www-form-urlencoded
@@ -121,6 +104,6 @@ function sendGenericMessage(sender, token) {
 	});
 }
 
-exports.default = { app: app, config: config };
+exports.default = { app: app };
 module.exports = exports['default'];
 //# sourceMappingURL=index.js.map

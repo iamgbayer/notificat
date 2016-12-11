@@ -10,9 +10,9 @@ var _simpleOauth = require('simple-oauth2');
 
 var _simpleOauth2 = _interopRequireDefault(_simpleOauth);
 
-var _index = require('../../index');
+var _config = require('../configs/config');
 
-var _index2 = _interopRequireDefault(_index);
+var _config2 = _interopRequireDefault(_config);
 
 var _express = require('express');
 
@@ -36,9 +36,9 @@ var AuthorizationService = function () {
     key: 'authorizationUri',
     value: function authorizationUri() {
       var authorizationUriValue = AuthorizationService.createAuthorization().authorizationCode.authorizeURL({
-        redirect_uri: _index2.default.REDIRECT_URI,
-        scope: _index2.default.REDIRECT_SCOPE,
-        state: _index2.default.REDIRECT_STATE
+        redirect_uri: _config2.default.REDIRECT_URI,
+        scope: _config2.default.REDIRECT_SCOPE,
+        state: _config2.default.REDIRECT_STATE
       });
 
       return authorizationUriValue;
@@ -48,13 +48,13 @@ var AuthorizationService = function () {
     value: function createAuthorization() {
       var createAuthorizationValue = _simpleOauth2.default.create({
         client: {
-          id: _index2.default.CLIENT_ID,
-          secret: _index2.default.CLIENT_SECRET
+          id: _config2.default.CLIENT_ID,
+          secret: _config2.default.CLIENT_SECRET
         },
         auth: {
-          tokenHost: _index2.default.TOKEN_HOST,
-          tokenPath: _index2.default.TOKEN_PATH,
-          authorizePath: _index2.default.AUTHORIZE_PATH
+          tokenHost: _config2.default.TOKEN_HOST,
+          tokenPath: _config2.default.TOKEN_PATH,
+          authorizePath: _config2.default.AUTHORIZE_PATH
         }
       });
 
@@ -71,7 +71,7 @@ var AuthorizationService = function () {
 
         GITHUB_TOKEN = AuthorizationService.createAuthorization().accessToken.create(result);
 
-        return res.redirect(_index2.default.FACEBOOK_PAGE_URL);
+        return res.redirect(_config2.default.FACEBOOK_PAGE_URL);
       });
     }
   }]);

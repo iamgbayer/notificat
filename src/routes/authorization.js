@@ -19,7 +19,7 @@ var router = _express2.default.Router();
 router.get('/auth', function (req, res) {
   var authorization = new _authorization2.default();
 
-  authorization.authorizationRedirect(req, res);
+  authorization.authorizationRedirect(res);
 });
 
 router.get('/callback', function (req, res) {
