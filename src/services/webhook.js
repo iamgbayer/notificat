@@ -63,10 +63,10 @@ var WebhookService = function () {
   }, {
     key: 'messageEvent',
     value: function messageEvent(req, res) {
-      WebhookService.tokenVerify(req, res);
-      // let messagingEvents = req.body.entry[0].messaging;
+      var messagingEvents = req.body.entry[0].messaging;
 
-      // console.log(req.body);
+      console.log(req.body);
+      console.log('Mensagem', messagingEvents);
       /*
         for (let i = 0; i < messagingEvents.length; i++) {
           let event = req.body.entry[0].messaging[i];
