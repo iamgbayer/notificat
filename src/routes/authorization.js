@@ -4,15 +4,13 @@ import AuthorizationService from '../services/authorization';
 const router = express.Router();
 
 router.get('/auth', (req, res) => {
-  let authorization = new AuthorizationService();
-
-  authorization.authorizationRedirect(res);
+  res.redirect(AuthorizationService.authorizationUri());
 });
 
 router.get('/callback', (req, res) => {
   let code = req.query.code;
   let options = {
-    code,
+    code
   };
 
   AuthorizationService.getToken(options, res);
