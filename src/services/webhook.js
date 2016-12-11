@@ -6,14 +6,14 @@ class WebhookService {
   constructor () {};
 
   tokenVerify (req, res) {
-    if (!req.query['hub.verify_token'] === config.FACEBOOK_TOKEN) {
+    if (!req.query['hub.verify_token'] === config.FACEBOOK_PAGE_ACCESS_TOKEN) {
       return res.send('Error, wrong token');
     }
 
     return res.send(req.query['hub.challenge']);
   }
 
-  messageEvent (req, res) {
+  static messageEvent (req, res) {
     let messagingEvents = req.body.entry[0].messaging;
 
     console.log(req.body);
@@ -24,24 +24,41 @@ class WebhookService {
       
       if (event.message && event.message.text) {
         let text = event.message.text;
-
-        if (text === 'Generic') {
-          sendGenericMessage(sender, config.FACEBOOK_TOKEN);
-          continue;
-        }
-
-        sendTextMessage(sender, `Text received, echo: ${text.substring(0, 200)}`, config.FACEBOOK_TOKEN);
+        WebhookService.sendTextMessage(sender, `Text received, echo: ${text.substring(0, 200)}`, config.FACEBOOK_PAGE_ACCESS_TOKEN);
       }
 
       if (event.postback) {
         let text = JSON.stringify(event.postback);
 
-        sendTextMessage(sender, `Postback received: ${text.substring(0, 200)}`, config.FACEBOOK_TOKEN);
+        WebhookService.textMessage(sender, `Postback received: ${text.substring(0, 200)}`, config.FACEBOOK_PAGE_ACCESS_TOKEN);
         continue;
       }
     }
 
     res.sendStatus(200);
+  }
+
+  textMessage (sender, text, token) {
+    let messageData = { text: text }
+
+    request({
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: { access_token: token },
+      method: 'POST',
+      json: {
+        recipient: { id: sender },
+        message: messageData,
+      }
+    }, (error, response, body) => {
+      if (error) {
+        console.log('Error sending messages: ', error)
+        return;
+      }
+      if (response.body.error) {
+        console.log('Error: ', response.body.error)
+        return;
+      }
+    })
   }
 }
 

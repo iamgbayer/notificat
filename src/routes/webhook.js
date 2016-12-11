@@ -3,6 +3,8 @@ import WebhookService from '../services/webhook';
 
 const router = express.Router();
 
-// router.get('/', WebhookService.oi);
+router.get('/webhook', (req, res) => {
+    WebhookService.messageEvent(req, res)
+});
 
 export default router;
