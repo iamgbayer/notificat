@@ -27,31 +27,7 @@ var WebhookService = function () {
     _classCallCheck(this, WebhookService);
   }
 
-  _createClass(WebhookService, [{
-    key: 'textMessage',
-    value: function textMessage(sender, text) {
-      var messageData = { text: text };
-
-      (0, _request2.default)({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: { access_token: _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN },
-        method: 'POST',
-        json: {
-          recipient: { id: sender },
-          message: messageData
-        }
-      }, function (error, response, body) {
-        if (error) {
-          console.log('Error sending messages: ', error);
-          return;
-        }
-        if (response.body.error) {
-          console.log('Error: ', response.body.error);
-          return;
-        }
-      });
-    }
-  }], [{
+  _createClass(WebhookService, null, [{
     key: 'tokenVerify',
     value: function tokenVerify(req, res) {
       if (req.query['hub.verify_token'] !== _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN) {
@@ -68,26 +44,35 @@ var WebhookService = function () {
       console.log(req.body);
 
       messagingEvents.map(function (messagingEvent) {
-        console.log('message', messagingEvent.message.text, ' sender', messagingEvent.sender.id);
+        var message = messagingEvent.message.text;
+        var sender = messagingEvent.sender.id;
+
+        WebhookService.textMessage(sender, message.substring(0, 200));
       });
 
-      /*
-        for (let i = 0; i < messagingEvents.length; i++) {
-          let event = req.body.entry[0].messaging[i];
-          let sender = event.sender.id;
-          
-          if (event.message && event.message.text) {
-            let text = event.message.text;
-            WebhookService.sendTextMessage(sender, `Text received, echo: ${text.substring(0, 200)}`);
-          }
-           if (event.postback) {
-            let text = JSON.stringify(event.postback);
-             WebhookService.textMessage(sender, `Postback received: ${text.substring(0, 200)}`);
-            continue;
-          }
-        }*/
-
-      // res.sendStatus(200);
+      res.sendStatus(200);
+    }
+  }, {
+    key: 'textMessage',
+    value: function textMessage(sender, message) {
+      (0, _request2.default)({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: { access_token: _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN },
+        method: 'POST',
+        json: {
+          recipient: { id: sender },
+          message: { text: message }
+        }
+      }, function (error, response, body) {
+        if (error) {
+          console.log('Error sending messages: ', error);
+          return;
+        }
+        if (response.body.error) {
+          console.log('Error: ', response.body.error);
+          return;
+        }
+      });
     }
   }]);
 
