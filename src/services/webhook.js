@@ -30,7 +30,7 @@ var WebhookService = function () {
   _createClass(WebhookService, null, [{
     key: 'tokenVerify',
     value: function tokenVerify(req, res) {
-      if (req.query['hub.verify_token'] !== _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN) {
+      if (!req.query['hub.verify_token'] === _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN) {
         return res.send('Error, wrong token');
       }
 
@@ -47,21 +47,22 @@ var WebhookService = function () {
         var message = messagingEvent.message.text;
         var sender = messagingEvent.sender.id;
 
-        WebhookService.textMessage(sender, message.substring(0, 200));
+        console.log('Destinatário: ', sender, 'Mensagem: ', message);
+        WebhookService.textMessage(sender, message);
       });
 
       res.sendStatus(200);
     }
   }, {
     key: 'textMessage',
-    value: function textMessage(sender, message) {
+    value: function textMessage(sender, text) {
       (0, _request2.default)({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: { access_token: _index2.default.FACEBOOK_PAGE_ACCESS_TOKEN },
         method: 'POST',
         json: {
           recipient: { id: sender },
-          message: { text: message }
+          message: { text: text }
         }
       }, function (error, response, body) {
         if (error) {
