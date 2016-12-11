@@ -68,7 +68,7 @@ var WebhookService = function () {
       console.log(req.body);
 
       messagingEvents.map(function (messagingEvent) {
-        console.log(messagingEvent);
+        console.log('message', messagingEvent.message.text, ' sender', messagingEvent.sender.id);
       });
 
       /*
