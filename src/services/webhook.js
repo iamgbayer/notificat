@@ -14,9 +14,14 @@ class WebhookService {
   }
 
   static messageEvent (req, res) {
-    // let messagingEvents = req.body.entry[0].messaging;
+    let messagingEvents = req.body.entry[0].messaging;
 
     console.log(req.body)
+
+    messagingEvents.map(messagingEvent => {
+      console.log(messagingEvent)
+    })
+
   /*
     for (let i = 0; i < messagingEvents.length; i++) {
       let event = req.body.entry[0].messaging[i];
@@ -24,13 +29,13 @@ class WebhookService {
       
       if (event.message && event.message.text) {
         let text = event.message.text;
-        WebhookService.sendTextMessage(sender, `Text received, echo: ${text.substring(0, 200)}`, config.FACEBOOK_PAGE_ACCESS_TOKEN);
+        WebhookService.sendTextMessage(sender, `Text received, echo: ${text.substring(0, 200)}`);
       }
 
       if (event.postback) {
         let text = JSON.stringify(event.postback);
 
-        WebhookService.textMessage(sender, `Postback received: ${text.substring(0, 200)}`, config.FACEBOOK_PAGE_ACCESS_TOKEN);
+        WebhookService.textMessage(sender, `Postback received: ${text.substring(0, 200)}`);
         continue;
       }
     }*/
@@ -38,12 +43,12 @@ class WebhookService {
     // res.sendStatus(200);
   }
 
-  textMessage (sender, text, token) {
+  textMessage (sender, text) {
     let messageData = { text: text }
 
     request({
       url: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: { access_token: token },
+      qs: { access_token: config.FACEBOOK_PAGE_ACCESS_TOKEN },
       method: 'POST',
       json: {
         recipient: { id: sender },
