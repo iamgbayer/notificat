@@ -6,7 +6,7 @@ class WebhookService {
   constructor () {};
 
   static tokenVerify (req, res) {
-    if (!req.query['hub.verify_token'] === config.FACEBOOK_PAGE_ACCESS_TOKEN) {
+    if (req.query['hub.verify_token'] !== config.FACEBOOK_PAGE_ACCESS_TOKEN) {
       return res.send('Error, wrong token');
     }
 
@@ -14,10 +14,9 @@ class WebhookService {
   }
 
   static messageEvent (req, res) {
-    let messagingEvents = req.body.entry[0].messaging;
+    // let messagingEvents = req.body.entry[0].messaging;
 
     console.log(req.body)
-    console.log('Mensagem', messagingEvents);
   /*
     for (let i = 0; i < messagingEvents.length; i++) {
       let event = req.body.entry[0].messaging[i];
