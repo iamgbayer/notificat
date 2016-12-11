@@ -16,4 +16,4 @@ script:
 
 after_success:
 - git checkout master
-- rsync -avvz -o "StrictHostKeyChecking no" $LOCAL_DIRECTORY $PROD_HOST_USER@$PROD_HOST_IP:$PROD_DIRECTORY
+- rsync -avvz -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null $LOCAL_DIRECTORY $PROD_HOST_USER@$PROD_HOST_IP:$PROD_DIRECTORY
