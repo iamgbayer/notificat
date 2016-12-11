@@ -19,7 +19,7 @@ class WebhookService {
     console.log(req.body)
 
     messagingEvents.map(messagingEvent => {
-      console.log(messagingEvent)
+      console.log('message', messagingEvent.message.text ,' sender', messagingEvent.sender.id)
     })
 
   /*
