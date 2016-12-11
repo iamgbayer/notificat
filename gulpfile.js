@@ -46,6 +46,7 @@ gulp.task('babel', () =>
 );
 
 
+
 gulp.task('nodemon', ['copy', 'babel'], () =>
   plugins.nodemon({
     script: path.join('dist', 'index.js'),
@@ -69,10 +70,12 @@ gulp.task('default', ['clean'], () => {
  */
 gulp.task('deploy', ['babel'], () => {
   gulp.src('dist/**/*', { read: false })
-    .pipe(deploy({
-      repository: 'https://github.com/guuibayer/notificat.git',
-      prefix: 'dist',
-      debug: true,
-      verbose: true,
-    }));
+      .pipe(deploy({
+        repository: 'git@github.com:guuibayer/notificat.git',
+        prefix: 'dist',
+        verbose: true,
+        debug: true,
+        branches: ['develop'],
+        remoteBranch: ['master']
+      }))
 });
