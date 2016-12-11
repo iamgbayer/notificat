@@ -4,19 +4,15 @@ node_js:
 cache:
   directories:
   - node_modules
+
 script:
 - npm i -g gulp
 - npm i
 - git checkout develop
 - git config --global user.name "guuibayer"
 - git config --global user.email "guiilherme.bayer@gmail.com"
-- gulp deploy
-# - git add dist
-# - git commit -m "Initial dist subtree commit"
-# - git push origin `git subtree split --prefix dist origin master`:develop --force
+- gulp babel
 
-# deploy:
-#   provider: heroku
-#   app: notificat
-#   api_key:
-#     secure: $HEROKU
+after_success:
+- git checkout master
+- rsync -avvz -e "ssh -i $SSH_KEY" ./ $PROD_HOST_USER@$PROD_HOST_IP:$PROD_DIRECTORY
