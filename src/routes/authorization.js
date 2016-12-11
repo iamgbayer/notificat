@@ -17,9 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = _express2.default.Router();
 
 router.get('/auth', function (req, res) {
-  var authorization = new _authorization2.default();
-
-  authorization.authorizationRedirect(res);
+  res.redirect(_authorization2.default.authorizationUri());
 });
 
 router.get('/callback', function (req, res) {

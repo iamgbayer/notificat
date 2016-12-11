@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 var config = {
-	"FACEBOOK_TOKEN": process.env.FACEBOOK_PAGE_ACCESS_TOKEN,
+	"FACEBOOK_PAGE_ACCESS_TOKEN": process.env.FACEBOOK_PAGE_ACCESS_TOKEN,
 	"FACEBOOK_PAGE_URL": process.env.FACEBOOK_PAGE_URL,
 
 	"CLIENT_ID": process.env.CLIENT_ID,

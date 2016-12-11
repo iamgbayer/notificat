@@ -32,46 +32,46 @@ var AuthorizationService = function () {
     value: function authorizationRedirect(res) {
       return res.redirect(this.authorizationUri());
     }
-  }, {
-    key: 'authorizationUri',
-    value: function authorizationUri() {
-      var authorizationUriValue = AuthorizationService.createAuthorization().authorizationCode.authorizeURL({
-        redirect_uri: _config2.default.REDIRECT_URI,
-        scope: _config2.default.REDIRECT_SCOPE,
-        state: _config2.default.REDIRECT_STATE
-      });
-
-      return authorizationUriValue;
-    }
   }], [{
     key: 'createAuthorization',
     value: function createAuthorization() {
       var createAuthorizationValue = _simpleOauth2.default.create({
         client: {
-          id: _config2.default.CLIENT_ID,
-          secret: _config2.default.CLIENT_SECRET
+          "id": _config2.default.CLIENT_ID,
+          "secret": _config2.default.CLIENT_SECRET
         },
         auth: {
-          tokenHost: _config2.default.TOKEN_HOST,
-          tokenPath: _config2.default.TOKEN_PATH,
-          authorizePath: _config2.default.AUTHORIZE_PATH
+          "tokenHost": _config2.default.TOKEN_HOST,
+          "tokenPath": _config2.default.TOKEN_PATH,
+          "authorizePath": _config2.default.AUTHORIZE_PATH
         }
       });
 
       return createAuthorizationValue;
     }
   }, {
+    key: 'authorizationUri',
+    value: function authorizationUri() {
+      var authorizationUriValue = AuthorizationService.createAuthorization().authorizationCode.authorizeURL({
+        "redirect_uri": _config2.default.REDIRECT_URI,
+        "scope": _config2.default.REDIRECT_SCOPE,
+        "state": _config2.default.REDIRECT_STATE
+      });
+
+      return authorizationUriValue;
+    }
+  }, {
     key: 'getToken',
     value: function getToken(options, res) {
-      AuthorizationService.createAuthorization().authorizationCode.getToken(options, function (error, result) {
+      var _this = this;
+
+      this.createAuthorization().authorizationCode.getToken(options, function (error, result) {
         if (error) {
           console.error('Access Token Error', error.message);
           return res.json('Authentication failed');
         }
 
-        var GITHUB_TOKEN = AuthorizationService.createAuthorization().accessToken.create(result);
-        console.log(GITHUB_TOKEN);
-
+        var GITHUB_TOKEN = _this.createAuthorization().accessToken.create(result);
         return res.redirect(_config2.default.FACEBOOK_PAGE_URL);
       });
     }
