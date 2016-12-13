@@ -14,6 +14,9 @@ script:
 - gulp babel
 - gulp copyToBuild
 
+addons:
+  ssh_known_hosts: $PROD_HOST_IP
+
 after_success:
 - git checkout master
 - rsync -avvz -e "ssh -i $SSH_KEY" $LOCAL_DIRECTORY $PROD_HOST_USER@$PROD_HOST_IP:$PROD_DIRECTORY
