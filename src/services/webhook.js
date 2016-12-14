@@ -16,23 +16,13 @@ class WebhookService {
   static messageEvent (req, res) {
     let messagingEvents = req.body.entry[0].messaging;
 
-    console.log(req.body)
+    messagingEvents.map(function (messagingEvent) {
+      if(messagingEvent.message) {
+        console.log('Esse aqui', messagingEvent)
 
-    /*messagingEvents.map(messagingEvent => {
-      console.log(req.body)
-      let messages = messagingEvent.message;
-      let sender = messagingEvent.sender;
-
-      // console.log('Destinatário: ', sender, 'Mensagem: ', messages)
-    })*/
-    for (let i = 0; i < messagingEvents.length; i++) {
-       let event = req.body.entry[0].messaging[i];
-       let sender = event.sender.id;
-
-      WebhookService.textMessage(sender, event.message.text);
-    }
-
-    res.sendStatus(200);
+        WebhookService.textMessage(messagingEvent.sender.id, messagingEvent.message.text);
+      }
+    })
   }
 
   static textMessage (sender, messages) {

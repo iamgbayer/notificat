@@ -19,10 +19,6 @@ class AuthorizationService {
     return createAuthorizationValue;
   }
 
-  authorizationRedirect (res) {
-    return res.redirect(this.authorizationUri());
-  }
-
   static authorizationUri () {
     let authorizationUriValue = AuthorizationService.createAuthorization().authorizationCode.authorizeURL({
       "redirect_uri": config.REDIRECT_URI,
@@ -41,6 +37,7 @@ class AuthorizationService {
       }
 
       const GITHUB_TOKEN = this.createAuthorization().accessToken.create(result);
+      console.log(GITHUB_TOKEN)
       return res.redirect(config.FACEBOOK_PAGE_URL);
     });
   }

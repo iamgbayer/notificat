@@ -1,6 +1,7 @@
 language: node_js
 node_js:
-- '4.6'
+- "4.6"
+
 cache:
   directories:
   - node_modules
@@ -11,12 +12,4 @@ script:
 - git checkout develop
 - git config --global user.name "guuibayer"
 - git config --global user.email "guiilherme.bayer@gmail.com"
-- gulp babel
-- gulp copyToBuild
-
-addons:
-  ssh_known_hosts: $PROD_HOST_IP
-
-after_success:
-- git checkout master
-- rsync -avvz -e "ssh -i $SSH_KEY" $LOCAL_DIRECTORY $PROD_HOST_USER@$PROD_HOST_IP:$PROD_DIRECTORY
+- gulp deploy
