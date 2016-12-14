@@ -27,12 +27,7 @@ var AuthorizationService = function () {
     _classCallCheck(this, AuthorizationService);
   }
 
-  _createClass(AuthorizationService, [{
-    key: 'authorizationRedirect',
-    value: function authorizationRedirect(res) {
-      return res.redirect(this.authorizationUri());
-    }
-  }], [{
+  _createClass(AuthorizationService, null, [{
     key: 'createAuthorization',
     value: function createAuthorization() {
       var createAuthorizationValue = _simpleOauth2.default.create({
@@ -72,6 +67,7 @@ var AuthorizationService = function () {
         }
 
         var GITHUB_TOKEN = _this.createAuthorization().accessToken.create(result);
+        console.log(GITHUB_TOKEN);
         return res.redirect(_config2.default.FACEBOOK_PAGE_URL);
       });
     }
