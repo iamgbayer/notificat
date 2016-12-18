@@ -36,9 +36,7 @@ class AuthorizationService {
         return res.json('Authentication failed');
       }
 
-      const GITHUB_TOKEN = this.createAuthorization().accessToken.create(result);
-      console.log(GITHUB_TOKEN)
-      return res.redirect(config.FACEBOOK_PAGE_URL);
+      return this.createAuthorization().accessToken.create(result);
     });
   }
 }
