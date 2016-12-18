@@ -27,6 +27,8 @@ router.get('/callback', function (req, res) {
   };
 
   _authorization2.default.getToken(options, res);
+
+  return res.redirect(config.FACEBOOK_PAGE_URL);
 });
 
 exports.default = router;

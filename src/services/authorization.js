@@ -66,9 +66,7 @@ var AuthorizationService = function () {
           return res.json('Authentication failed');
         }
 
-        var GITHUB_TOKEN = _this.createAuthorization().accessToken.create(result);
-        console.log(GITHUB_TOKEN);
-        return res.redirect(_config2.default.FACEBOOK_PAGE_URL);
+        return _this.createAuthorization().accessToken.create(result);
       });
     }
   }]);
