@@ -5,11 +5,11 @@ import express from 'express';
 class AuthorizationService {
   static createAuthorization () {
     let createAuthorizationValue = simpleOauth.create({
-      client: {
+      "client": {
         "id": config.CLIENT_ID,
         "secret": config.CLIENT_SECRET,
       },
-      auth: {
+      "auth": {
         "tokenHost": config.TOKEN_HOST,
         "tokenPath": config.TOKEN_PATH,
         "authorizePath": config.AUTHORIZE_PATH

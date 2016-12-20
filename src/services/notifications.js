@@ -11,6 +11,11 @@ class NotificationsService {
   }
 
 
+  static toCard () {
+
+  }
+
+
   /**
    * Possible reason types
    *
