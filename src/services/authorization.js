@@ -31,11 +31,11 @@ var AuthorizationService = function () {
     key: 'createAuthorization',
     value: function createAuthorization() {
       var createAuthorizationValue = _simpleOauth2.default.create({
-        client: {
+        "client": {
           "id": _config2.default.CLIENT_ID,
           "secret": _config2.default.CLIENT_SECRET
         },
-        auth: {
+        "auth": {
           "tokenHost": _config2.default.TOKEN_HOST,
           "tokenPath": _config2.default.TOKEN_PATH,
           "authorizePath": _config2.default.AUTHORIZE_PATH

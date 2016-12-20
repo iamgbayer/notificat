@@ -49,6 +49,9 @@ var NotificationsService = function () {
   }], [{
     key: 'getToken',
     value: function getToken() {}
+  }, {
+    key: 'toCard',
+    value: function toCard() {}
   }]);
 
   return NotificationsService;
