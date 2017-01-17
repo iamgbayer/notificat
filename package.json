@@ -5,6 +5,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "messenger",
+    "bot",
+    "chatbot",
+    "chat",
+    "bot",
+    "facebook"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/guuibayer/Notificat.git"
@@ -15,9 +23,11 @@
     "url": "https://github.com/guuibayer/Notificat/issues"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "body-parser": "^1.15.2",
+    "eventemitter3": "^2.0.2",
     "express": "^4.14.0",
-    "request": "^2.79.0",
+    "node-cron": "^1.1.2",
     "simple-oauth2": "^1.0.0"
   },
   "devDependencies": {

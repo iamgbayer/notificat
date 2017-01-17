@@ -10,9 +10,9 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _request = require('request');
+var _axios = require('axios');
 
-var _request2 = _interopRequireDefault(_request);
+var _axios2 = _interopRequireDefault(_axios);
 
 var _authorization = require('./authorization');
 
@@ -27,31 +27,18 @@ var NotificationsService = function () {
     _classCallCheck(this, NotificationsService);
   }
 
-  _createClass(NotificationsService, [{
+  _createClass(NotificationsService, null, [{
     key: 'getNotification',
-
-
-    /**
-     * Possible reason types
-     *
-     * ['subscribed', 'You are watching the repository'],
-     * ['manual', 'You are subscribed to this thread'],
-     * ['author', 'You created this thread'],
-     * ['comment', 'New comment'],
-     * ['mention', 'You were mentioned'],
-     * ['team_mention', 'Your team was mentioned'],
-     * ['state_change', 'Thread status changed'],
-     * ['assign', 'You were assigned to the issue']
-     */
     value: function getNotification() {
-      var url = 'https://api.github.com/notifications?participating=true';
+      var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'https://api.github.com/notifications?per_page=1';
+
+      var config = {
+        headers: { "Authorization": 'token ' + GITHUB_USER_TOKEN },
+        method: "GET"
+      };
+
+      return _axios2.default.get(url, config);
     }
-  }], [{
-    key: 'getToken',
-    value: function getToken() {}
-  }, {
-    key: 'toCard',
-    value: function toCard() {}
   }]);
 
   return NotificationsService;

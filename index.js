@@ -44,6 +44,6 @@ app.listen(app.get('port'), function () {
   console.log('running on port', app.get('port'));
 });
 
-exports.default = { app: app };
+exports.default = app;
 module.exports = exports['default'];
 //# sourceMappingURL=index.js.map

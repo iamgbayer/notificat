@@ -14,13 +14,21 @@ var _request = require('request');
 
 var _request2 = _interopRequireDefault(_request);
 
-var _config = require('../configs/config');
+var _eventemitter = require('eventemitter3');
 
-var _config2 = _interopRequireDefault(_config);
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
 var _notifications = require('./notifications');
 
 var _notifications2 = _interopRequireDefault(_notifications);
+
+var _config = require('../configs/config');
+
+var _config2 = _interopRequireDefault(_config);
+
+var _nodeCron = require('node-cron');
+
+var _nodeCron2 = _interopRequireDefault(_nodeCron);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43,157 +51,47 @@ var WebhookService = function () {
   }, {
     key: 'messageEvent',
     value: function messageEvent(req, res) {
-      var _this = this;
-
       var messagingEvents = req.body.entry[0].messaging;
 
       messagingEvents.map(function (messagingEvent) {
-        if (messagingEvent.message) {
-          var sender = messagingEvent.sender.id;
-          var message = messagingEvent.message.text;
+        var sender = messagingEvent.sender.id;
 
-          _this.setStartedButton();
-          _this.setPersistentMenu();
-          // this.textMessage(sender, message);
-          _this.cardMessage(sender);
-          return;
-        }
+        return;
       });
 
       res.sendStatus(200);
     }
   }, {
-    key: 'cardMessage',
-    value: function cardMessage(sender, message) {
-      var messageData = {
-        attachment: {
-          type: "template",
-          payload: {
-            template_type: "generic",
-            elements: [{
-              // title: "Issue, Refactoring in gulpfile",
-              subtitle: "You created this thread",
-              image_url: "https://avatars.githubusercontent.com/u/5483459?v=3",
-              buttons: [{
-                type: "web_url",
-                url: "https://github.com/guuibayer/notificat/issues/13",
-                title: "View in github"
-              }, {
-                type: "postback",
-                title: "Mark as read",
-                payload: "Payload for first element in a generic bubble"
-              }]
-            }]
-          }
-        }
-      };
-      (0, _request2.default)({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: { access_token: _config2.default.FACEBOOK_PAGE_ACCESS_TOKEN },
-        method: 'POST',
-        json: {
-          recipient: { id: sender },
-          message: messageData
-        }
-      }, function (error, response, body) {
-        if (error) {
-          console.log('Error sending messages: ', error);
-          return;
-        }
+    key: 'automaticMessageEvent',
+    value: function automaticMessageEvent(res) {
+      var _this = this;
 
-        if (response.body.error) {
-          console.log('Error: ', response.body.error);
-          return;
-        }
-      });
-    }
-  }, {
-    key: 'textMessage',
-    value: function textMessage(sender, messages) {
-      (0, _request2.default)({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: { access_token: _config2.default.FACEBOOK_PAGE_ACCESS_TOKEN },
-        method: 'POST',
-        json: {
-          recipient: { id: sender },
-          message: { text: messages }
-        }
-      }, function (error, response, body) {
-        if (error) {
-          console.log('Error sending messages: ', error);
-          return;
-        }
+      _notifications2.default.getNotification().then(function (response) {
+        response.data.map(function (data) {
+          _notifications2.default.getNotification(data.subject.url).then(function (res) {
+            var notification = {
+              type: data.subject.type,
+              title: data.subject.title,
+              subtitle: data.repository.full_name,
+              image_url: data.repository.owner.avatar_url,
+              url: res.data.html_url
+            };
 
-        if (response.body.error) {
-          console.log('Error: ', response.body.error);
-          return;
-        }
+            _this.messageCard(sender, notification);
+          });
+        });
       });
-    }
-  }, {
-    key: 'setStartedButton',
-    value: function setStartedButton() {
-      (0, _request2.default)({
-        url: 'https://graph.facebook.com/v2.6/me/thread_settings',
-        qs: { access_token: _config2.default.FACEBOOK_PAGE_ACCESS_TOKEN },
-        method: 'POST',
-        json: {
-          setting_type: "call_to_actions",
-          thread_state: "new_thread",
-          call_to_actions: [{
-            "message": {
-              "text": "Test"
-            }
-          }]
-        }
-      }, function (error, response, body) {
-        if (error) {
-          console.log('Error to set get started button: ', error);
-          return;
-        }
 
-        if (response.body.error) {
-          console.log('Error: ', response);
-          return;
-        }
-      });
-    }
-  }, {
-    key: 'setPersistentMenu',
-    value: function setPersistentMenu() {
-      (0, _request2.default)({
-        url: 'https://graph.facebook.com/v2.6/me/thread_settings',
-        qs: { access_token: _config2.default.FACEBOOK_PAGE_ACCESS_TOKEN },
-        method: 'POST',
-        json: {
-          setting_type: "call_to_actions",
-          thread_state: "existing_thread",
-          call_to_actions: [{
-            type: "web_url",
-            title: "Notificat in github",
-            payload: "https://github.com/guuibayer/notificat"
-          }, {
-            type: "web_url",
-            title: "Register user",
-            url: "https://2d558d13.ngrok.io/api/auth"
-          }]
-        }
-      }, function (error, response, body) {
-        if (error) {
-          console.log('Error to set persistent menu: ', error);
-          return;
-        }
-
-        if (response.body.error) {
-          console.log('Error: ', response);
-          return;
-        }
-      });
+      res.sendStatus(200);
     }
   }]);
 
   return WebhookService;
 }();
+
+_nodeCron2.default.schedule('*/2 * * * *', function () {
+  WebhookService.automaticMessageEvent(res);
+});
 
 exports.default = WebhookService;
 module.exports = exports['default'];
